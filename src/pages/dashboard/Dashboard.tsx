@@ -1,17 +1,53 @@
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, type DropResult } from 'react-beautiful-dnd';
 
 import { useCallback } from 'react';
 import CardList from '../../components/CardList'
 import { dataTodos } from '../../mocks/todos';
 import React from 'react';
+import { Button } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 
 function Dashboard() {
   const [trello, setTrello] = React.useState(dataTodos);
 
-  const onDragEnd = useCallback((e) => {
+  const onDragEnd = useCallback((result: DropResult) => {
     // the only one that is required
-     console.log('onDragEnd: ', e)
-  }, []);
+    console.log('onDragEnd: ', result);
+    const { source, destination, draggableId, type } = result;
+
+    if (!destination) return;
+
+    if (type === 'LIST') {
+      // code logic list
+      return
+    };
+
+    const { droppableId: sourceDroppableId, index: sourceIndex } = source;
+    const { droppableId: destinationDroppableId, index: destinationIndex } = destination;
+
+    if (sourceDroppableId === destinationDroppableId) {
+      // drop & drag card same list
+      const listItem = trello.list[sourceDroppableId];
+      const newCards = listItem.cards;
+      newCards.splice(sourceIndex, 1);
+      newCards.splice(destinationIndex, 0, draggableId)
+      const newTrello = {
+        ...trello,
+        list: {
+          ...trello.list,
+          [sourceDroppableId]: {
+            ...listItem,
+            cards: newCards
+          }
+        }
+      }
+      setTrello(newTrello)
+      return;
+    }
+
+    // // drop & drag card different list
+
+  }, [trello]);
 
   return (
     <DragDropContext
@@ -38,6 +74,9 @@ function Dashboard() {
                 )
               })}
               {provided.placeholder}
+              <Button type="text">
+                <PlusOutlined /> Add another list
+              </Button>
             </div>
           )}
         </Droppable>

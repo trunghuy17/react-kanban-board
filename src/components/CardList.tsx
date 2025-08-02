@@ -12,8 +12,6 @@ interface CardListProps {
 }
 
 function CardList({ index, listItem, cards }: CardListProps) {
-
-  console.log('cards: ', cards)
   return (
    <Draggable draggableId={String(listItem.id)} index={index}>
     {(provided) => (

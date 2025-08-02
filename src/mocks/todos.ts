@@ -41,14 +41,14 @@ export const dataTodos: any = {
   columns: ['list1', 'list2'],
   list: {
     list1: {
-      id: 1,
+      id: 'list1',
       title: 'list1',
       cards: ['card-1-1']
     },
     list2: {
-      id: 2,
+      id: 'list2',
       title: 'list2',
-      cards: ['card-2-1', 'card-2-2']
+      cards: ['card-2-1', 'card-2-2', 'card-2-3']
     }
   },
   card: {
@@ -63,6 +63,10 @@ export const dataTodos: any = {
     "card-2-2": {
       id: "card-2-2",
       title: 'card-2-2',
+    },
+    "card-2-3": {
+      id: "card-2-3",
+      title: 'card-2-3',
     },
   }
 };
